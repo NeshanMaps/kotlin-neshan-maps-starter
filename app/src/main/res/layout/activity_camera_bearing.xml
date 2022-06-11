@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.CameraBearingActivity">
+
+    <org.neshan.mapsdk.MapView
+        android:id="@+id/mapview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBaseline_toBottomOf="parent"
+        app:layout_constraintBaseline_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="parent" />
+
+    <ToggleButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/toggle_button_bg"
+        android:checked="true"
+        android:elevation="8dp"
+        android:onClick="toggleCameraRotation"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:textColor="@color/white"
+        android:textOff="تغییر جهت دوربین"
+        android:textOn="تغییر جهت دوربین"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:targetApi="m" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="64dp"
+        android:background="@drawable/rounded_white_bg"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/north_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="شمال"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/south_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="جنوب"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/west_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="غرب"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/east_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="شرق"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <org.neshan.kotlinsample.customView.CircularSeekBar
+            android:id="@+id/bearing_seek_bar"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            app:cs_circle_color="@color/purple_700"
+            app:cs_circle_progress_color="@color/purple_200"
+            app:cs_circle_stroke_width="16dp"
+            app:cs_circle_style="round"
+            app:cs_max="360"
+            app:cs_move_outside_circle="true"
+            app:cs_pointer_color="@color/purple_500"
+            app:cs_pointer_stroke_width="16dp"
+            app:cs_progress="0"
+            app:layout_constraintBottom_toTopOf="@id/south_label"
+            app:layout_constraintEnd_toStartOf="@id/east_label"
+            app:layout_constraintStart_toEndOf="@id/west_label"
+            app:layout_constraintTop_toBottomOf="@id/north_label" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
