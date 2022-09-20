@@ -3,7 +3,6 @@ package org.neshan.kotlinsample.activity
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.carto.graphics.Color
-import com.carto.styles.LabelStyleBuilder
 import com.carto.styles.TextMargins
 import com.carto.styles.TextStyleBuilder
 import org.neshan.common.model.LatLng

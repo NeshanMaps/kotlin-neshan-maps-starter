@@ -4,7 +4,6 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.IntentSender.SendIntentException
-import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
 import android.location.Location
 import android.net.Uri
@@ -15,7 +14,6 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
 import com.carto.styles.MarkerStyleBuilder
 import com.carto.utils.BitmapUtils
 import com.google.android.gms.common.api.ApiException
@@ -29,9 +27,9 @@ import com.karumi.dexter.listener.PermissionGrantedResponse
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.single.PermissionListener
 import org.neshan.common.model.LatLng
+import org.neshan.kotlinsample.R
 import org.neshan.mapsdk.MapView
 import org.neshan.mapsdk.model.Marker
-import org.neshan.kotlinsample.R;
 import java.text.DateFormat
 import java.util.*
 
@@ -185,16 +183,18 @@ class UserLocationActivity : AppCompatActivity() {
                             "Location settings are not satisfied. Attempting to upgrade " +
                                     "location settings "
                         )
-                        try {
-                            // Show the dialog by calling startResolutionForResult(), and check the
-                            // result in onActivityResult().
-                            val rae = e as ResolvableApiException
-                            rae.startResolutionForResult(this, REQUEST_CODE)
-                        } catch (sie: SendIntentException) {
-                            Log.i(
-                                TAG,
-                                "PendingIntent unable to execute request."
-                            )
+                        if (mRequestingLocationUpdates == true) {
+                            try {
+                                // Show the dialog by calling startResolutionForResult(), and check the
+                                // result in onActivityResult().
+                                val rae = e as ResolvableApiException
+                                rae.startResolutionForResult(this, REQUEST_CODE)
+                            } catch (sie: SendIntentException) {
+                                Log.i(
+                                    TAG,
+                                    "PendingIntent unable to execute request."
+                                )
+                            }
                         }
                     }
                     LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE -> {

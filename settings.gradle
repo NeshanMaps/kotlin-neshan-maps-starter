@@ -8,5 +8,5 @@ dependencyResolutionManagement {
         maven { url "https://maven.neshan.org/artifactory/public-maven" }
     }
 }
-rootProject.name = "My Application"
+rootProject.name = "Kotlin starter"
 include ':app'
