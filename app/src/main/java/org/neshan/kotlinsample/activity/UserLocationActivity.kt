@@ -271,4 +271,24 @@ class UserLocationActivity : AppCompatActivity() {
             map.setZoom(15f, 0.25f)
         }
     }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        when (requestCode) {
+            REQUEST_CODE -> when (resultCode) {
+                RESULT_OK -> Log.e(
+                    TAG,
+                    "User agreed to make required location settings changes."
+                )
+                RESULT_CANCELED -> {
+                    Log.e(
+                        TAG,
+                        "User choose not to make required location settings changes."
+                    )
+                    mRequestingLocationUpdates = false
+                }
+            }
+        }
+    }
 }
