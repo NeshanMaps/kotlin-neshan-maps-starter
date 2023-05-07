@@ -14,9 +14,10 @@ import com.carto.styles.MarkerStyleBuilder
 import com.carto.utils.BitmapUtils
 import org.json.JSONObject
 import org.neshan.common.model.LatLng
+import org.neshan.kotlinsample.R
 import org.neshan.mapsdk.MapView
 import org.neshan.mapsdk.model.Marker
-import org.neshan.kotlinsample.R
+import java.nio.charset.StandardCharsets
 
 class ApiVolleyActivity : AppCompatActivity() {
 
@@ -115,8 +116,14 @@ class ApiVolleyActivity : AppCompatActivity() {
             Response.Listener { response: String? ->
                 try {
                     val obj = JSONObject(response)
-                    val neighbourhood = obj.getString("neighbourhood")
-                    val address = obj.getString("address")
+                    val neighbourhood = String(
+                        obj.getString("neighbourhood").toByteArray(StandardCharsets.ISO_8859_1),
+                        StandardCharsets.UTF_8
+                    )
+                    val address = String(
+                        obj.getString("address").toByteArray(StandardCharsets.ISO_8859_1),
+                        StandardCharsets.UTF_8
+                    )
 
                     // if server was able to return neighbourhood and address to us
                     if (neighbourhood != "null" && address != "null") {

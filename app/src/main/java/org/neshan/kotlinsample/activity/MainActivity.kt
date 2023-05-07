@@ -84,11 +84,6 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    fun goToCacheActivity(view: View) {
-        val intent = Intent(this, CacheActivity::class.java)
-        startActivity(intent)
-    }
-
     fun goToLabelActivity(view: View) {
         val intent = Intent(this, AddLabelActivity::class.java)
         startActivity(intent)

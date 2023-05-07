@@ -4,12 +4,16 @@ import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import com.carto.styles.*
+import com.carto.styles.AnimationStyle
+import com.carto.styles.AnimationStyleBuilder
+import com.carto.styles.AnimationType
+import com.carto.styles.MarkerStyleBuilder
 import org.neshan.common.model.LatLng
+import org.neshan.kotlinsample.R
 import org.neshan.mapsdk.MapView
 import org.neshan.mapsdk.internal.utils.BitmapUtils
 import org.neshan.mapsdk.model.Marker
-import org.neshan.kotlinsample.R
+
 
 class AddMarkerActivity : AppCompatActivity() {
 
@@ -37,7 +41,10 @@ class AddMarkerActivity : AppCompatActivity() {
 
         // when long clicked on map, a marker is added in clicked location
         map.setOnMapLongClickListener {
-            map.addMarker(createMarker(it))
+            val marker: Marker = createMarker(it)
+            marker.title = "Salam"
+            map.addMarker(marker)
+            marker.showInfoWindow()
         }
         // when on marker clicked, change marker style to blue
         map.setOnMarkerClickListener { marker1: Marker ->
@@ -96,7 +103,7 @@ class AddMarkerActivity : AppCompatActivity() {
         redMarker.setStyle(blueMarkSt)
     }
 
-    fun clearMarkers(view: View){
+    fun clearMarkers(view: View) {
         map.clearMarkers()
     }
 }

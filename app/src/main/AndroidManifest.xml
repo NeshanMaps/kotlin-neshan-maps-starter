@@ -35,9 +35,6 @@
             android:name="org.neshan.kotlinsample.activity.AddLabelActivity"
             android:exported="false" />
         <activity
-            android:name="org.neshan.kotlinsample.activity.CacheActivity"
-            android:exported="false" />
-        <activity
             android:name="org.neshan.kotlinsample.activity.ApiOkHttpActivity"
             android:exported="false" />
         <activity

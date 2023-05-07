@@ -664,49 +664,6 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/item15"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="4dp"
-            android:gravity="center"
-            android:onClick="goToCacheActivity"
-            app:cardBackgroundColor="@color/purple_500"
-            app:cardCornerRadius="8dp"
-            app:layout_constraintEnd_toStartOf="@id/guideline"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/item13">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="?attr/selectableItemBackground"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="58dp"
-                    android:layout_marginTop="8dp"
-                    android:adjustViewBounds="true"
-                    app:srcCompat="@drawable/dashboard_cache_32dp" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:layout_marginBottom="8dp"
-                    android:gravity="center"
-                    android:text="کش کردن نقشه"
-                    android:textColor="@color/white"
-                    android:textSize="15sp" />
-
-            </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
             android:id="@+id/item16"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -805,7 +762,7 @@
             app:cardCornerRadius="8dp"
             app:layout_constraintEnd_toStartOf="@id/guideline"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/item15">
+            app:layout_constraintTop_toBottomOf="@id/item13">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -891,7 +848,7 @@
             app:cardCornerRadius="8dp"
             app:layout_constraintEnd_toStartOf="@id/guideline"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/item17">
+            app:layout_constraintTop_toBottomOf="@id/item18">
 
             <LinearLayout
                 android:layout_width="match_parent"
