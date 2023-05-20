@@ -1,31 +1,27 @@
 package org.neshan.kotlinsample.activity
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.IntentSender.SendIntentException
+import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
 import android.location.Location
-import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Looper
-import android.provider.Settings
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.activity.result.ActivityResultCallback
+import androidx.activity.result.contract.ActivityResultContracts.RequestMultiplePermissions
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.carto.styles.MarkerStyleBuilder
 import com.carto.utils.BitmapUtils
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
-import com.karumi.dexter.BuildConfig
-import com.karumi.dexter.Dexter
-import com.karumi.dexter.PermissionToken
-import com.karumi.dexter.listener.PermissionDeniedResponse
-import com.karumi.dexter.listener.PermissionGrantedResponse
-import com.karumi.dexter.listener.PermissionRequest
-import com.karumi.dexter.listener.single.PermissionListener
+import com.google.android.gms.tasks.OnSuccessListener
 import org.neshan.common.model.LatLng
 import org.neshan.kotlinsample.R
 import org.neshan.mapsdk.MapView
@@ -37,6 +33,9 @@ class UserLocationActivity : AppCompatActivity() {
 
     private val TAG: String = UserLocationActivity::class.java.name
 
+    // used to track request permissions
+    private val REQUEST_CODE = 123
+
     // location updates interval - 1 sec
     private val UPDATE_INTERVAL_IN_MILLISECONDS: Long = 1000
 
@@ -44,9 +43,6 @@ class UserLocationActivity : AppCompatActivity() {
     // location updates will be received if another app is requesting the locations
     // than your app can handle
     private val FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS: Long = 1000
-
-    // used to track request permissions
-    private val REQUEST_CODE = 123
 
     // map UI element
     private lateinit var map: MapView
@@ -71,7 +67,6 @@ class UserLocationActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-
         // everything related to ui is initialized here
         initLayoutReferences()
         // Initializing user location
@@ -110,6 +105,7 @@ class UserLocationActivity : AppCompatActivity() {
     private fun initLocation() {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         settingsClient = LocationServices.getSettingsClient(this)
+
         locationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult) {
                 super.onLocationResult(locationResult)
@@ -119,42 +115,47 @@ class UserLocationActivity : AppCompatActivity() {
                 onLocationChange()
             }
         }
+
         mRequestingLocationUpdates = false
-        locationRequest = LocationRequest()
-        locationRequest.numUpdates = 10
-        locationRequest.interval = UPDATE_INTERVAL_IN_MILLISECONDS
-        locationRequest.fastestInterval = FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS
-        locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+
+        locationRequest = LocationRequest.Builder(
+            Priority.PRIORITY_HIGH_ACCURACY,
+            UPDATE_INTERVAL_IN_MILLISECONDS
+        ).build()
         val builder = LocationSettingsRequest.Builder()
         builder.addLocationRequest(locationRequest)
         locationSettingsRequest = builder.build()
     }
 
     fun startReceivingLocationUpdates() {
-        // Requesting ACCESS_FINE_LOCATION using Dexter library
-        Dexter.withActivity(this)
-            .withPermission(Manifest.permission.ACCESS_FINE_LOCATION)
-            .withListener(object : PermissionListener {
-                override fun onPermissionGranted(response: PermissionGrantedResponse?) {
-                    mRequestingLocationUpdates = true
-                    startLocationUpdates()
-                }
-
-                override fun onPermissionDenied(response: PermissionDeniedResponse) {
-                    if (response.isPermanentlyDenied()) {
-                        // open device settings when the permission is
-                        // denied permanently
-                        openSettings()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val checkPermissionGranted = registerForActivityResult(RequestMultiplePermissions(),
+                ActivityResultCallback<Map<String?, Boolean?>?> { result ->
+                    if (result != null && result[Manifest.permission.ACCESS_COARSE_LOCATION] != null &&
+                        result[Manifest.permission.ACCESS_COARSE_LOCATION]!! && result[Manifest.permission.ACCESS_FINE_LOCATION] != null &&
+                        result[Manifest.permission.ACCESS_FINE_LOCATION]!!
+                    ) {
+                        mRequestingLocationUpdates = true
+                        startLocationUpdates()
+                    } else {
+                        requestPermissions(
+                            arrayOf(
+                                Manifest.permission.ACCESS_FINE_LOCATION,
+                                Manifest.permission.ACCESS_COARSE_LOCATION
+                            ), REQUEST_CODE
+                        )
                     }
-                }
-
-                override fun onPermissionRationaleShouldBeShown(
-                    permission: PermissionRequest?,
-                    token: PermissionToken
-                ) {
-                    token.continuePermissionRequest()
-                }
-            }).check()
+                })
+            checkPermissionGranted.launch(
+                arrayOf(
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                )
+            )
+        } else {
+            mRequestingLocationUpdates = true
+            startLocationUpdates()
+        }
     }
 
     /**
@@ -162,58 +163,67 @@ class UserLocationActivity : AppCompatActivity() {
      * Check whether location settings are satisfied and then
      * location updates will be requested
      */
-    @SuppressLint("MissingPermission")
     private fun startLocationUpdates() {
-        settingsClient.checkLocationSettings(locationSettingsRequest).addOnSuccessListener(this) {
-            Log.i(TAG, "All location settings are satisfied.")
-            fusedLocationClient.requestLocationUpdates(
-                locationRequest,
-                locationCallback,
-                Looper.myLooper()
-            )
-            onLocationChange()
-        }
-            .addOnFailureListener(this)
-            { e ->
+        settingsClient
+            .checkLocationSettings(locationSettingsRequest!!)
+            .addOnSuccessListener(this, OnSuccessListener {
+                Log.i(
+                    TAG,
+                    "All location settings are satisfied."
+                )
+                if (ContextCompat.checkSelfPermission(
+                        this@UserLocationActivity,
+                        Manifest.permission.ACCESS_FINE_LOCATION
+                    ) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
+                        this@UserLocationActivity,
+                        Manifest.permission.ACCESS_COARSE_LOCATION
+                    ) != PackageManager.PERMISSION_GRANTED
+                ) {
+                    Log.d("UserLocationUpdater", " required permissions are not granted ")
+                    return@OnSuccessListener
+                }
+                fusedLocationClient.requestLocationUpdates(
+                    locationRequest,
+                    locationCallback!!,
+                    Looper.myLooper()
+                )
+            })
+            .addOnFailureListener(this) { e ->
                 val statusCode = (e as ApiException).statusCode
                 when (statusCode) {
-                    LocationSettingsStatusCodes.RESOLUTION_REQUIRED -> {
+                    LocationSettingsStatusCodes.RESOLUTION_REQUIRED -> try {
                         Log.i(
                             TAG,
-                            "Location settings are not satisfied. Attempting to upgrade " +
-                                    "location settings "
+                            "Location settings are not satisfied. Attempting to upgrade location settings"
                         )
-                        if (mRequestingLocationUpdates == true) {
-                            try {
-                                // Show the dialog by calling startResolutionForResult(), and check the
-                                // result in onActivityResult().
-                                val rae = e as ResolvableApiException
-                                rae.startResolutionForResult(this, REQUEST_CODE)
-                            } catch (sie: SendIntentException) {
-                                Log.i(
-                                    TAG,
-                                    "PendingIntent unable to execute request."
-                                )
-                            }
-                        }
+                        // Show the dialog by calling startResolutionForResult(), and check the
+                        // result in onActivityResult().
+                        val rae = e as ResolvableApiException
+                        rae.startResolutionForResult(this@UserLocationActivity, REQUEST_CODE)
+                    } catch (sie: SendIntentException) {
+                        Log.i(
+                            TAG,
+                            "PendingIntent unable to execute request."
+                        )
                     }
                     LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE -> {
-                        val errorMessage = "Location settings are inadequate, and cannot be " +
-                                "fixed here. Fix in Settings."
+                        val errorMessage =
+                            "Location settings are inadequate, and cannot be fixed here. Fix in Settings."
                         Log.e(
                             TAG,
                             errorMessage
                         )
-                        Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show()
+                        Toast.makeText(this@UserLocationActivity, errorMessage, Toast.LENGTH_LONG)
+                            .show()
                     }
                 }
-                onLocationChange()
             }
     }
 
     fun stopLocationUpdates() {
         // Removing location updates
-        fusedLocationClient.removeLocationUpdates(locationCallback)
+        fusedLocationClient
+            .removeLocationUpdates(locationCallback!!)
             .addOnCompleteListener(
                 this
             ) {
@@ -226,18 +236,6 @@ class UserLocationActivity : AppCompatActivity() {
         if (userLocation != null) {
             addUserMarker(LatLng(userLocation!!.latitude, userLocation!!.longitude))
         }
-    }
-
-    private fun openSettings() {
-        val intent = Intent()
-        intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
-        val uri = Uri.fromParts(
-            "package",
-            BuildConfig.APPLICATION_ID, null
-        )
-        intent.data = uri
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-        startActivity(intent)
     }
 
     private fun addUserMarker(loc: LatLng) {
@@ -274,7 +272,6 @@ class UserLocationActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
         when (requestCode) {
             REQUEST_CODE -> when (resultCode) {
                 RESULT_OK -> Log.e(
