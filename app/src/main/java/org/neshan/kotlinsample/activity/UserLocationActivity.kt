@@ -12,8 +12,6 @@ import android.os.Looper
 import android.util.Log
 import android.view.View
 import android.widget.Toast
-import androidx.activity.result.ActivityResultCallback
-import androidx.activity.result.contract.ActivityResultContracts.RequestMultiplePermissions
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.carto.styles.MarkerStyleBuilder
@@ -38,11 +36,6 @@ class UserLocationActivity : AppCompatActivity() {
 
     // location updates interval - 1 sec
     private val UPDATE_INTERVAL_IN_MILLISECONDS: Long = 1000
-
-    // fastest updates interval - 1 sec
-    // location updates will be received if another app is requesting the locations
-    // than your app can handle
-    private val FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS: Long = 1000
 
     // map UI element
     private lateinit var map: MapView
@@ -74,14 +67,32 @@ class UserLocationActivity : AppCompatActivity() {
         startReceivingLocationUpdates()
     }
 
-    override fun onResume() {
-        super.onResume()
-        startLocationUpdates()
-    }
-
     override fun onPause() {
         super.onPause()
         stopLocationUpdates()
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        if (requestCode == REQUEST_CODE) {
+            if (ContextCompat.checkSelfPermission(
+                    this@UserLocationActivity,
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                ) == PackageManager.PERMISSION_GRANTED
+                && ContextCompat.checkSelfPermission(
+                    this@UserLocationActivity,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
+                mRequestingLocationUpdates = true
+                startLocationUpdates()
+            }
+        }
     }
 
     // Initializing layout references (views, map and map events)
@@ -127,31 +138,27 @@ class UserLocationActivity : AppCompatActivity() {
         locationSettingsRequest = builder.build()
     }
 
-    fun startReceivingLocationUpdates() {
+    private fun startReceivingLocationUpdates() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            val checkPermissionGranted = registerForActivityResult(RequestMultiplePermissions(),
-                ActivityResultCallback<Map<String?, Boolean?>?> { result ->
-                    if (result != null && result[Manifest.permission.ACCESS_COARSE_LOCATION] != null &&
-                        result[Manifest.permission.ACCESS_COARSE_LOCATION]!! && result[Manifest.permission.ACCESS_FINE_LOCATION] != null &&
-                        result[Manifest.permission.ACCESS_FINE_LOCATION]!!
-                    ) {
-                        mRequestingLocationUpdates = true
-                        startLocationUpdates()
-                    } else {
-                        requestPermissions(
-                            arrayOf(
-                                Manifest.permission.ACCESS_FINE_LOCATION,
-                                Manifest.permission.ACCESS_COARSE_LOCATION
-                            ), REQUEST_CODE
-                        )
-                    }
-                })
-            checkPermissionGranted.launch(
-                arrayOf(
-                    Manifest.permission.ACCESS_FINE_LOCATION,
+            if (ContextCompat.checkSelfPermission(
+                    this@UserLocationActivity,
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                ) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
+                    this@UserLocationActivity,
                     Manifest.permission.ACCESS_COARSE_LOCATION
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
+                mRequestingLocationUpdates = true
+                startLocationUpdates()
+            } else {
+                requestPermissions(
+                    arrayOf(
+                        Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.ACCESS_COARSE_LOCATION
+                    ), REQUEST_CODE
                 )
-            )
+            }
+
         } else {
             mRequestingLocationUpdates = true
             startLocationUpdates()
@@ -235,6 +242,7 @@ class UserLocationActivity : AppCompatActivity() {
     private fun onLocationChange() {
         if (userLocation != null) {
             addUserMarker(LatLng(userLocation!!.latitude, userLocation!!.longitude))
+            map.moveCamera(LatLng(userLocation!!.latitude, userLocation!!.longitude), .5f)
         }
     }
 
@@ -267,23 +275,31 @@ class UserLocationActivity : AppCompatActivity() {
                 LatLng(userLocation!!.latitude, userLocation!!.longitude), 0.25f
             )
             map.setZoom(15f, 0.25f)
+        } else {
+            startReceivingLocationUpdates()
         }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
-            REQUEST_CODE -> when (resultCode) {
-                RESULT_OK -> Log.e(
-                    TAG,
-                    "User agreed to make required location settings changes."
-                )
-                RESULT_CANCELED -> {
-                    Log.e(
-                        TAG,
-                        "User choose not to make required location settings changes."
-                    )
-                    mRequestingLocationUpdates = false
+            REQUEST_CODE -> {
+                when (resultCode) {
+                    RESULT_OK -> {
+                        Log.e(
+                            TAG,
+                            "User agreed to make required location settings changes."
+                        )
+                        mRequestingLocationUpdates = true
+                        startLocationUpdates()
+                    }
+                    RESULT_CANCELED -> {
+                        Log.e(
+                            TAG,
+                            "User choose not to make required location settings changes."
+                        )
+                        mRequestingLocationUpdates = false
+                    }
                 }
             }
         }

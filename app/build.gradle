@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'org.jetbrains.kotlin.android'
 }
 
 android {
@@ -8,8 +9,8 @@ android {
 
     defaultConfig {
         applicationId "org.neshan.kotlinsample"
-        minSdk 19
-        targetSdk 33
+        minSdkVersion 19
+        targetSdkVersion 33
         versionCode 1
         versionName "1.0.1"
         multiDexEnabled true
@@ -19,8 +20,11 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            ndk {
+                abiFilters "armeabi-v7a"
+            }
         }
     }
     compileOptions {
@@ -33,11 +37,11 @@ android {
 }
 
 dependencies {
-    implementation 'androidx.core:core-ktx:1.10.1'
+    implementation "androidx.multidex:multidex-instrumentation:2.0.0"
+    implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.9.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation "androidx.multidex:multidex:2.0.1"
 
     implementation 'neshan-android-sdk:services-sdk:1.0.0@aar'
     implementation 'neshan-android-sdk:mobile-sdk:1.0.2@aar'
@@ -46,9 +50,6 @@ dependencies {
     //Play Services
     implementation 'com.google.android.gms:play-services-gcm:17.0.0'
     implementation 'com.google.android.gms:play-services-location:21.0.1'
-
-    // dexter runtime permissions
-    implementation 'com.karumi:dexter:4.2.0'
 
     //Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
