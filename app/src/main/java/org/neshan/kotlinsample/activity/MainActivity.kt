@@ -109,6 +109,16 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
+    fun goToDrawArcActivity(view: View?) {
+        val intent = Intent(this, DrawArcActivity::class.java)
+        startActivity(intent)
+    }
+
+    fun goToStaticMapActivity(view: View?) {
+        val intent = Intent(this, StaticMapActivity::class.java)
+        startActivity(intent)
+    }
+
     fun openNeshanLink(view: View) {
         startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://developer.neshan.org/")))
     }

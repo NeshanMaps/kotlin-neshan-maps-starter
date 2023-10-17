@@ -879,102 +879,6 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/item20"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="64dp"
-            android:layout_marginEnd="4dp"
-            android:layout_marginBottom="8dp"
-            android:gravity="center"
-            android:onClick="openNeshanLink"
-            app:cardBackgroundColor="@color/purple_700"
-            app:cardCornerRadius="8dp"
-            app:layout_constraintEnd_toStartOf="@id/guideline"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/item24">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="?attr/selectableItemBackground"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:padding="8dp">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="4dp"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginBottom="4dp"
-                    android:layout_weight="99"
-                    android:gravity="center"
-                    android:text="پلتفرم نشان"
-                    android:textColor="@color/white"
-                    android:textSize="15sp" />
-
-                <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginEnd="4dp"
-                    android:adjustViewBounds="true"
-                    android:tint="@color/white"
-                    app:srcCompat="@mipmap/ic_launcher" />
-
-            </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/item21"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="64dp"
-            android:layout_marginEnd="4dp"
-            android:layout_marginBottom="8dp"
-            android:gravity="center"
-            android:onClick="openGithubLink"
-            app:cardBackgroundColor="@color/purple_700"
-            app:cardCornerRadius="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/guideline"
-            app:layout_constraintTop_toBottomOf="@id/item24">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="?attr/selectableItemBackground"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:padding="8dp">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="4dp"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginBottom="4dp"
-                    android:layout_weight="99"
-                    android:gravity="center"
-                    android:text="سورس کد"
-                    android:textColor="@color/white"
-                    android:textSize="15sp" />
-
-                <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginEnd="4dp"
-                    android:adjustViewBounds="true"
-                    android:tint="@color/white"
-                    app:srcCompat="@drawable/ic_github" />
-
-            </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
             android:id="@+id/item24"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -1017,6 +921,187 @@
 
         </androidx.cardview.widget.CardView>
 
+        <androidx.cardview.widget.CardView
+            android:id="@+id/item25"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="4dp"
+            android:gravity="center"
+            android:onClick="goToStaticMapActivity"
+            app:cardBackgroundColor="@color/purple_700"
+            app:cardCornerRadius="8dp"
+            app:layout_constraintEnd_toStartOf="@id/guideline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/item24">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="?attr/selectableItemBackground"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="8dp"
+                    android:adjustViewBounds="true"
+                    app:srcCompat="@drawable/ic_static_map" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:gravity="center"
+                    android:text="نقشه استاتیک"
+                    android:textColor="@color/white"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/item26"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="4dp"
+            android:gravity="center"
+            android:onClick="goToDrawArcActivity"
+            app:cardBackgroundColor="@color/purple_700"
+            app:cardCornerRadius="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/guideline"
+            app:layout_constraintTop_toBottomOf="@id/item19">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="?attr/selectableItemBackground"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="58dp"
+                    android:layout_marginTop="8dp"
+                    android:adjustViewBounds="true"
+                    app:srcCompat="@drawable/ic_arc" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="8dp"
+                    android:gravity="center"
+                    android:text="رسم کمان"
+                    android:textColor="@color/white"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/item20"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="64dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginBottom="8dp"
+            android:gravity="center"
+            android:onClick="openNeshanLink"
+            app:cardBackgroundColor="@color/purple_700"
+            app:cardCornerRadius="8dp"
+            app:layout_constraintEnd_toStartOf="@id/guideline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/item25">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="?attr/selectableItemBackground"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="8dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="4dp"
+                    android:layout_weight="99"
+                    android:gravity="center"
+                    android:text="پلتفرم نشان"
+                    android:textColor="@color/white"
+                    android:textSize="15sp" />
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="4dp"
+                    android:adjustViewBounds="true"
+                    app:srcCompat="@mipmap/ic_launcher"
+                    app:tint="@color/white" />
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/item21"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="64dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginBottom="8dp"
+            android:gravity="center"
+            android:onClick="openGithubLink"
+            app:cardBackgroundColor="@color/purple_700"
+            app:cardCornerRadius="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/guideline"
+            app:layout_constraintTop_toBottomOf="@id/item25">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="?attr/selectableItemBackground"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="8dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="4dp"
+                    android:layout_weight="99"
+                    android:gravity="center"
+                    android:text="سورس کد"
+                    android:textColor="@color/white"
+                    android:textSize="15sp" />
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="4dp"
+                    android:adjustViewBounds="true"
+                    app:srcCompat="@drawable/ic_github"
+                    app:tint="@color/white" />
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

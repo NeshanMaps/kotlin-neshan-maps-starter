@@ -7,9 +7,9 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import org.neshan.common.model.LatLng
 import org.neshan.common.network.RetrofitClientInstance
-import org.neshan.mapsdk.MapView
 import org.neshan.kotlinsample.R
 import org.neshan.kotlinsample.model.address.NeshanAddress
+import org.neshan.mapsdk.MapView
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -21,7 +21,8 @@ class ApiRetrofitActivity : AppCompatActivity() {
     private lateinit var progressBar: ProgressBar
 
     private val getDataService: org.neshan.kotlinsample.network.ReverseService =
-        RetrofitClientInstance.getRetrofitInstance().create(org.neshan.kotlinsample.network.ReverseService::class.java)
+        RetrofitClientInstance.getRetrofitInstance()
+            .create(org.neshan.kotlinsample.network.ReverseService::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,21 +62,27 @@ class ApiRetrofitActivity : AppCompatActivity() {
     }
 
     private fun getReverseApi(currentLocation: LatLng) {
-        getDataService.getReverse(currentLocation.latitude,currentLocation.longitude).enqueue(object : Callback<NeshanAddress> {
-            override fun onResponse(call: Call<NeshanAddress>, response: Response<NeshanAddress>) {
-                val address: String? = response.body()!!.address
-                if (address != null && !address.isEmpty()) {
-                    addressTitle.text = address
-                } else {
-                    addressTitle.text = "معبر بی‌نام"
+        getDataService.getReverse(currentLocation.latitude, currentLocation.longitude)
+            .enqueue(object : Callback<NeshanAddress> {
+                override fun onResponse(
+                    call: Call<NeshanAddress>,
+                    response: Response<NeshanAddress>
+                ) {
+                    if (response != null && response.body() != null) {
+                        val address: String? = response.body()!!.address
+                        if (address != null && !address.isEmpty()) {
+                            addressTitle.text = address
+                        } else {
+                            addressTitle.text = "معبر بی‌نام"
+                        }
+                        progressBar.visibility = View.INVISIBLE
+                    }
                 }
-                progressBar.visibility = View.INVISIBLE
-            }
 
-            override fun onFailure(call: Call<NeshanAddress>, t: Throwable) {
-                addressTitle.text = "معبر بی‌نام"
-                progressBar.visibility = View.INVISIBLE
-            }
-        })
+                override fun onFailure(call: Call<NeshanAddress>, t: Throwable) {
+                    addressTitle.text = "معبر بی‌نام"
+                    progressBar.visibility = View.INVISIBLE
+                }
+            })
     }
 }

@@ -8,14 +8,19 @@ import android.widget.Toast
 import android.widget.ToggleButton
 import androidx.appcompat.app.AppCompatActivity
 import com.carto.graphics.Color
-import com.carto.styles.*
+import com.carto.styles.AnimationStyle
+import com.carto.styles.AnimationStyleBuilder
+import com.carto.styles.AnimationType
+import com.carto.styles.LineStyle
+import com.carto.styles.LineStyleBuilder
+import com.carto.styles.MarkerStyleBuilder
 import com.carto.utils.BitmapUtils
 import org.neshan.common.model.LatLng
 import org.neshan.common.utils.PolylineEncoding
+import org.neshan.kotlinsample.R
 import org.neshan.mapsdk.MapView
 import org.neshan.mapsdk.model.Marker
 import org.neshan.mapsdk.model.Polyline
-import org.neshan.kotlinsample.R
 import org.neshan.servicessdk.direction.NeshanDirection
 import org.neshan.servicessdk.direction.model.NeshanDirectionResult
 import org.neshan.servicessdk.direction.model.Route
@@ -187,7 +192,7 @@ class RoutingActivity : AppCompatActivity() {
     // request routing method from Neshan Server
     private fun neshanRoutingApi() {
         NeshanDirection.Builder(
-            "service.VNlPhrWb3wYRzEYmstQh3GrAXyhyaN55AqUSRR3V",
+            "YOUR_API_KEY",
             markers[0].latLng,
             markers[1].latLng
         )

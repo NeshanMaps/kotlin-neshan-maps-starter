@@ -11,8 +11,8 @@ android {
         applicationId "org.neshan.kotlinsample"
         minSdkVersion 19
         targetSdkVersion 33
-        versionCode 2
-        versionName "1.0.1"
+        versionCode 3
+        versionName "1.0.2"
         multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -44,8 +44,8 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 
     implementation 'neshan-android-sdk:services-sdk:1.0.0@aar'
-    implementation 'neshan-android-sdk:mobile-sdk:1.0.2@aar'
-    implementation 'neshan-android-sdk:common-sdk:0.0.2@aar'
+    implementation 'neshan-android-sdk:mobile-sdk:1.0.3@aar'
+    implementation 'neshan-android-sdk:common-sdk:0.0.3@aar'
 
     //Play Services
     implementation 'com.google.android.gms:play-services-gcm:17.0.0'

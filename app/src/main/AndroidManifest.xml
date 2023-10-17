@@ -8,7 +8,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
-        android:name="org.neshan.kotlinsample.MyApplication"
+        android:name=".MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -17,67 +17,73 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication">
         <activity
-            android:name="org.neshan.kotlinsample.activity.DrawCircleActivity"
+            android:name=".activity.DrawArcActivity"
             android:exported="false" />
         <activity
-            android:name="org.neshan.kotlinsample.activity.SearchActivity"
+            android:name=".activity.StaticMapActivity"
             android:exported="false" />
         <activity
-            android:name="org.neshan.kotlinsample.activity.MarkerClusteringActivity"
+            android:name=".activity.DrawCircleActivity"
             android:exported="false" />
         <activity
-            android:name="org.neshan.kotlinsample.activity.RemoveMarkerActivity"
+            android:name=".activity.SearchActivity"
             android:exported="false" />
         <activity
-            android:name="org.neshan.kotlinsample.activity.RoutingActivity"
+            android:name=".activity.MarkerClusteringActivity"
             android:exported="false" />
         <activity
-            android:name="org.neshan.kotlinsample.activity.AddLabelActivity"
+            android:name=".activity.RemoveMarkerActivity"
             android:exported="false" />
         <activity
-            android:name="org.neshan.kotlinsample.activity.ApiOkHttpActivity"
+            android:name=".activity.RoutingActivity"
             android:exported="false" />
         <activity
-            android:name="org.neshan.kotlinsample.activity.ApiVolleyActivity"
+            android:name=".activity.AddLabelActivity"
             android:exported="false" />
         <activity
-            android:name="org.neshan.kotlinsample.activity.ApiRetrofitActivity"
+            android:name=".activity.ApiOkHttpActivity"
             android:exported="false" />
         <activity
-            android:name="org.neshan.kotlinsample.activity.DatabaseLayerActivity"
+            android:name=".activity.ApiVolleyActivity"
             android:exported="false" />
         <activity
-            android:name="org.neshan.kotlinsample.activity.POILayerActivity"
+            android:name=".activity.ApiRetrofitActivity"
             android:exported="false" />
         <activity
-            android:name="org.neshan.kotlinsample.activity.OnlineLayerActivity"
+            android:name=".activity.DatabaseLayerActivity"
             android:exported="false" />
         <activity
-            android:name="org.neshan.kotlinsample.activity.TrafficLayerActivity"
+            android:name=".activity.POILayerActivity"
             android:exported="false" />
         <activity
-            android:name="org.neshan.kotlinsample.activity.UserLocationActivity"
+            android:name=".activity.OnlineLayerActivity"
             android:exported="false" />
         <activity
-            android:name="org.neshan.kotlinsample.activity.ChangeStyleActivity"
+            android:name=".activity.TrafficLayerActivity"
             android:exported="false" />
         <activity
-            android:name="org.neshan.kotlinsample.activity.DrawPolygonActivity"
+            android:name=".activity.UserLocationActivity"
             android:exported="false" />
         <activity
-            android:name="org.neshan.kotlinsample.activity.CameraBearingActivity"
+            android:name=".activity.ChangeStyleActivity"
             android:exported="false" />
         <activity
-            android:name="org.neshan.kotlinsample.activity.TiltCameraActivity"
+            android:name=".activity.DrawPolygonActivity"
             android:exported="false" />
         <activity
-            android:name="org.neshan.kotlinsample.activity.DrawPolylineActivity"
+            android:name=".activity.CameraBearingActivity"
             android:exported="false" />
         <activity
-            android:name="org.neshan.kotlinsample.activity.AddMarkerActivity"
+            android:name=".activity.TiltCameraActivity"
             android:exported="false" />
         <activity
-            android:name="org.neshan.kotlinsample.activity.MainActivity"
+            android:name=".activity.DrawPolylineActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.AddMarkerActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

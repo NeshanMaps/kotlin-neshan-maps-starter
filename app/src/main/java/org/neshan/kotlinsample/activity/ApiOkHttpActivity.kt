@@ -12,16 +12,16 @@ import com.carto.utils.BitmapUtils
 import okhttp3.*
 import org.json.JSONObject
 import org.neshan.common.model.LatLng
+import org.neshan.kotlinsample.R
 import org.neshan.mapsdk.MapView
 import org.neshan.mapsdk.MapView.OnMapLongClickListener
 import org.neshan.mapsdk.model.Marker
-import org.neshan.kotlinsample.R
 import java.io.IOException
 
 class ApiOkHttpActivity : AppCompatActivity() {
 
     // map UI element
-    private lateinit var map:MapView
+    private lateinit var map: MapView
 
     //ui elements in bottom sheet
     private lateinit var addressTitle: TextView
@@ -122,7 +122,7 @@ class ApiOkHttpActivity : AppCompatActivity() {
         val client = OkHttpClient.Builder()
             .build()
         val request = Request.Builder() //TODO: replace "YOUR_API_KEY" with your api key
-            .header("Api-Key", "service.kREahwU7lND32ygT9ZgPFXbwjzzKukdObRZsnUAJ")
+            .header("Api-Key", "YOUR_API_KEY")
             .url(requestURL)
             .build()
         client.newCall(request).enqueue(object : Callback {

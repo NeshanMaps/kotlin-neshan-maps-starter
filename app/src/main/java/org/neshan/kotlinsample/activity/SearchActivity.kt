@@ -22,10 +22,10 @@ import com.carto.styles.MarkerStyleBuilder
 import com.carto.utils.BitmapUtils
 import org.neshan.common.model.LatLng
 import org.neshan.common.model.LatLngBounds
-import org.neshan.mapsdk.MapView
-import org.neshan.mapsdk.model.Marker
 import org.neshan.kotlinsample.R
 import org.neshan.kotlinsample.adapter.SearchAdapter
+import org.neshan.mapsdk.MapView
+import org.neshan.mapsdk.model.Marker
 import org.neshan.servicessdk.search.NeshanSearch
 import org.neshan.servicessdk.search.model.Item
 import org.neshan.servicessdk.search.model.NeshanSearchResult
@@ -75,9 +75,9 @@ class SearchActivity : AppCompatActivity(), SearchAdapter.OnSearchItemListener {
             }
         })
 
-        editText.setOnEditorActionListener(object :TextView.OnEditorActionListener{
+        editText.setOnEditorActionListener(object : TextView.OnEditorActionListener {
             override fun onEditorAction(p0: TextView?, p1: Int, p2: KeyEvent?): Boolean {
-                if(p1 == EditorInfo.IME_ACTION_SEARCH){
+                if (p1 == EditorInfo.IME_ACTION_SEARCH) {
                     closeKeyBoard()
                     search(editText.text.toString())
                 }
@@ -110,7 +110,7 @@ class SearchActivity : AppCompatActivity(), SearchAdapter.OnSearchItemListener {
     private fun search(term: String) {
         val searchPosition: LatLng = map.getCameraTargetPosition()
         updateCenterMarker(searchPosition)
-        NeshanSearch.Builder("service.oz8cfBdCEdmTv8qGx1835A1OPcVdq5DcTGgMN6z9")
+        NeshanSearch.Builder("YOUR_API_KEY")
             .setLocation(searchPosition)
             .setTerm(term)
             .build().call(object : Callback<NeshanSearchResult?> {

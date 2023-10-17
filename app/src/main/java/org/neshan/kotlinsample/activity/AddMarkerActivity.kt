@@ -42,7 +42,7 @@ class AddMarkerActivity : AppCompatActivity() {
         // when long clicked on map, a marker is added in clicked location
         map.setOnMapLongClickListener {
             val marker: Marker = createMarker(it)
-            marker.title = "Salam"
+            marker.title = "Title"
             map.addMarker(marker)
             marker.showInfoWindow()
         }

@@ -18,14 +18,22 @@ import com.carto.styles.MarkerStyleBuilder
 import com.carto.utils.BitmapUtils
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.ResolvableApiException
-import com.google.android.gms.location.*
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationResult
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.LocationSettingsRequest
+import com.google.android.gms.location.LocationSettingsStatusCodes
+import com.google.android.gms.location.Priority
+import com.google.android.gms.location.SettingsClient
 import com.google.android.gms.tasks.OnSuccessListener
 import org.neshan.common.model.LatLng
 import org.neshan.kotlinsample.R
 import org.neshan.mapsdk.MapView
 import org.neshan.mapsdk.model.Marker
 import java.text.DateFormat
-import java.util.*
+import java.util.Date
 
 class UserLocationActivity : AppCompatActivity() {
 
@@ -213,6 +221,7 @@ class UserLocationActivity : AppCompatActivity() {
                             "PendingIntent unable to execute request."
                         )
                     }
+
                     LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE -> {
                         val errorMessage =
                             "Location settings are inadequate, and cannot be fixed here. Fix in Settings."
@@ -242,6 +251,10 @@ class UserLocationActivity : AppCompatActivity() {
     private fun onLocationChange() {
         if (userLocation != null) {
             addUserMarker(LatLng(userLocation!!.latitude, userLocation!!.longitude))
+            if (marker != null) {
+                map.enableUserMarkerRotation(marker)
+            }
+            map.showAccuracyCircle(userLocation)
             map.moveCamera(LatLng(userLocation!!.latitude, userLocation!!.longitude), .5f)
         }
     }
@@ -254,10 +267,12 @@ class UserLocationActivity : AppCompatActivity() {
         // Creating marker style. We should use an object of type MarkerStyleCreator, set all features on it
         // and then call buildStyle method on it. This method returns an object of type MarkerStyle
         val markStCr = MarkerStyleBuilder()
-        markStCr.size = 30f
+        markStCr.size = 70f
+        markStCr.anchorPointX = 0f
+        markStCr.anchorPointY = 0f
         markStCr.bitmap = BitmapUtils.createBitmapFromAndroidBitmap(
             BitmapFactory.decodeResource(
-                resources, R.drawable.ic_marker
+                resources, R.drawable.ic_user_loc_3
             )
         )
         val markSt = markStCr.buildStyle()
@@ -267,6 +282,8 @@ class UserLocationActivity : AppCompatActivity() {
 
         // Adding user marker to map!
         map.addMarker(marker)
+
+        map.enableUserMarkerRotation(marker)
     }
 
     fun focusOnUserLocation(view: View?) {
@@ -293,6 +310,7 @@ class UserLocationActivity : AppCompatActivity() {
                         mRequestingLocationUpdates = true
                         startLocationUpdates()
                     }
+
                     RESULT_CANCELED -> {
                         Log.e(
                             TAG,

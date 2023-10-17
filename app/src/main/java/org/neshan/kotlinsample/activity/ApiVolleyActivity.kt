@@ -143,7 +143,7 @@ class ApiVolleyActivity : AppCompatActivity() {
             override fun getHeaders(): Map<String, String> {
                 val params: MutableMap<String, String> = HashMap()
                 // TODO: replace "YOUR_API_KEY" with your api key
-                params["Api-Key"] = "service.kREahwU7lND32ygT9ZgPFXbwjzzKukdObRZsnUAJ"
+                params["Api-Key"] = "YOUR_API_KEY"
                 return params
             }
         }
